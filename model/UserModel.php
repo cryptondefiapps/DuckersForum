@@ -163,6 +163,14 @@
             return false;
         }
 
+        public function save_avatar($filename) {
+            $stmt = $this->conn->prepare("UPDATE users SET avatar=:filename WHERE id=:id");
+            $stmt->bindParam(":id", $this->user_id);
+            $stmt->bindParam(":filename", $filename);
+            if($stmt->execute()) {return true;}
+            return false;
+        }
+
         //      ____      _     ____        _        
         //     / ___| ___| |_  |  _ \  __ _| |_ __ _ 
         //    | |  _ / _ \ __| | | | |/ _` | __/ _` |

@@ -225,7 +225,7 @@
     ?>  <div class="all-section-wp section_<?=$section['id']?>">
             <article class="section-wp">
                 <div class="section_content_<?=$section['id']?>">
-                    <a href="index.php?view=threads&section=<?=$section['id']?>"><h2 class="section_title_<?=$section['id']?>"><?=$section['title']?></h2></a>
+                    <a href="index.php?view=threads&section=<?=$section['id']?>"><h3 class="section_title_<?=$section['id']?>"><?=$section['title']?></h3></a>
                     <p class="section_desc_<?=$section['id']?>"><?=$section['description']?></p>
                 </div>
                 <div>

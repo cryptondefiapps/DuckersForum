@@ -395,7 +395,7 @@
             <!-- THREAD USER PROFILE -->
             <article class="user-profile">
                 <p class="username"><?=$forumController->get_username_by_user_id($data['thread']['user_id'])?></p>
-                <img src="images/default-user" alt="avatar" width="130" height="130">
+                <img src="<?=$forumController->get_user_avatar($data['thread']['user_id'])?>" alt="avatar" width="130" height="130">
                 <hr>
                 <div class="int-info">
                     <p>Post: <?=$userController->count_posts($data['thread']['user_id']);?></p>
@@ -415,9 +415,14 @@
     <!-- POST -->
     <?php
     // POR CADA POST
-    if (isset($_GET['page']) && $_GET['page'] !== "1") {
-        $postId = $_GET['page'] + 5 - 1;
+    if (isset($_GET['page'])) {
+        $currentPage = max(1, intval($_GET['page'])); // Aseguramos que la página mínima sea 1
+        $postId = ($currentPage - 1) * 5 + 2; // Calcula el primer ID de post para la página actual
+    } else {
+        $currentPage = 1;
+        $postId = 2; // El primer post siempre es 2
     }
+    
     foreach($data['posts'] as $post) {
     ?>
     <section class="complete-post">
@@ -454,7 +459,7 @@
             <!-- POST USER PROFILE -->
             <article class="user-profile">
                 <p class="username"><?=$forumController->get_username_by_user_id($post['user_id'])?></p>
-                <img src="images/default-user" alt="avatar" width="130" height="130">
+                <img src="<?=$forumController->get_user_avatar($post['user_id'])?>" alt="avatar" width="130" height="130">
                 <hr>
                 <div class="int-info">
                     <p>Post: <?=$userController->count_posts($post['user_id']);?></p>

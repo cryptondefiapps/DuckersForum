@@ -38,7 +38,7 @@
                 ?>  
                     <nav id="navbar" class="nav">
                         <div class="profile" id="user-container" onclick="menuToggle('profile-menu')">
-                            <img src="images/default-user" alt="avatar" width="60" height="60">
+                            <img src="<?=$avatarSrc?>" alt="avatar" width="60" height="60">
                             <p><?=$_SESSION['username']?></p>
                         </div>
                         <div id="profile-menu" class="menu">

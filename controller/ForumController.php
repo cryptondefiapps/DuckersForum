@@ -402,5 +402,13 @@ class ForumController {
         // Retorna la fecha
         return $response;
     }
+
+    public function get_user_avatar($user_id) {
+        $response = $this->model->get_user_avatar($user_id);
+        if(!$response){
+            return 'images/default-user.jpg';
+        }
+        return "uploads/$response";
+    }
 }
 ?>

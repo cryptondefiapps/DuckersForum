@@ -356,6 +356,17 @@
             return false;
         }
 
+        public function get_user_avatar($user_id) {
+            $stmt = $this->conn->prepare("SELECT avatar FROM users WHERE id=:user_id");
+            $stmt->bindParam(":user_id", $user_id);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                return ($stmt->fetchAll(PDO::FETCH_ASSOC)[0])['avatar'];
+            }
+            return false;
+        }
+
+
     }
  
 ?>

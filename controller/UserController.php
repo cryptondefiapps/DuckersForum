@@ -20,6 +20,7 @@
         private $total_threads;
         private $total_posts;
         private $registration_date;
+        private $avatar;
 
         public function __construct() {
             $this->db = (new Database())->getConnection();
@@ -34,6 +35,7 @@
                 $this->total_threads = $this->model->total_threads;
                 $this->total_posts = $this->model->total_posts;
                 $this->registration_date = $this->model->registration_date;
+                $this->avatar = $this->model->avatar == '' ? 'default' : $this->model->avatar;
             }
         }
 
@@ -158,6 +160,17 @@
             return false;
         }
 
+        public function save_avatar($filename) {
+            if(empty($filename)) {
+                return DataController::generateData(1, "empty_filename", "");
+            }
+
+            if(!$this->model->save_avatar($filename)){
+                return false;
+            }
+            return true;
+        }
+
         //      ____      _     ____        _        
         //     / ___| ___| |_  |  _ \  __ _| |_ __ _ 
         //    | |  _ / _ \ __| | | | |/ _` | __/ _` |
@@ -175,6 +188,10 @@
 
         public function get_user_id() {
             return $this->user_id;
+        }
+
+        public function get_avatar() {
+            return $this->avatar;
         }
 
         public function get_registration_date() {

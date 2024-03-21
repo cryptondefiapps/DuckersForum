@@ -54,9 +54,23 @@
             console.log(e)
         }
     }
+    window.onload = (event) => {
+        document.getElementById('avatar').addEventListener('change', async function() {
+            if (this.files && this.files[0]) {
+                const formData = new FormData();
+                formData.append('avatar', this.files[0]);
+                const response = await fetch("index.php?action=avatar_upload", {
+                    method: 'POST',
+                    body: formData,
+                });
+                const jsonData = await response.json()
+                if (jsonData.status === 1) { return }
+                document.getElementById("avatarimg").src = "uploads/" + jsonData.data.filename
+            }
+        });
+    }
 
 </script>
-
 <nav>
     <ul>
         <a href="index.php?view=home"><span><i class="fa-solid fa-house"></i></span></a>
@@ -73,11 +87,12 @@
         </span>
     </ul>
 </nav>
+
 <div id="profile-wp">
     <article class="user-profile-wp">
         <div class="img-profile-wp">
-            <img src="images/default-user" alt="avatar" width="100" height="100">
-            <i class="fa-solid fa-camera camera"></i>
+            <label for="avatar"><img id="avatarimg" src="<?=$avatarSrc?>" alt="avatar" width="100" height="100"><i class="fa-solid fa-camera camera"></i></label>
+            <input style="display:none" type="file" id="avatar" name="avatar" accept="image/png, image/jpeg" />
         </div>
         <div class="username-profile-wp">
             <p><?=$_SESSION['username']?></p>

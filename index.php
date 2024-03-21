@@ -26,6 +26,7 @@
 
     $userController = new UserController();
     $forumController = new ForumController($userController);
+    $avatarSrc = $userController->get_avatar() === 'default' ? 'images/default-user.jpg' : 'uploads/'.$userController->get_avatar();
 
     //  ____        __             _ _                            
     // |  _ \  ___ / _| __ _ _   _| | |_   _ __   __ _  __ _  ___ 
@@ -142,6 +143,21 @@
         if ($_GET['action'] === "edit_password") {
             $jsonData = DataController::decodeJson();
             DataController::returnJson($userController->edit_password($jsonData->password, $jsonData->currentpass));
+        }
+
+        if ($_GET['action'] === "avatar_upload") {
+            $origFilename = basename($_FILES['avatar']['name']);
+            $ext = pathinfo($origFilename, PATHINFO_EXTENSION);
+            $filename = md5($origFilename).".".$ext;
+            if (!move_uploaded_file($_FILES['avatar']['tmp_name'], "./uploads/$filename")) {
+                DataController::returnJson(DataController::generateData(1, "error", ""));
+            }
+            $userController->save_avatar($filename);
+            DataController::returnJson(DataController::generateData(0, "ok", "", [
+                "filename" => $filename
+            ]));
+            
+
         }
         
         exit();
